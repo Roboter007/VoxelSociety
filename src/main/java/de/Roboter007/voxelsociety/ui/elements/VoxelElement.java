@@ -1,60 +1,122 @@
 package de.Roboter007.voxelsociety.ui.elements;
 
 import de.Roboter007.voxelsociety.ui.UiUtilities;
-import de.Roboter007.voxelsociety.ui.screen.ScreenHandler;
+import de.Roboter007.voxelsociety.ui.elements.listener.VoxelElementHandler;
+import de.Roboter007.voxelsociety.ui.elements.lists.VoxelElementList;
 
 import javax.swing.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.function.Consumer;
 
 public abstract class VoxelElement {
 
+
+    private Consumer<VoxelElement> updateTask = null;
+    protected Rectangle boundingBox;
+
     public VoxelElement() {
-        ScreenHandler.ACTIVE_ELEMENTS_LIST.add(this);
     }
 
-    public void keyTyped(KeyEvent e) {
-        int code = e.getKeyCode();
-        System.out.println("Code: " + code);
-        this.keyTyped(code);
-    }
 
-    public void keyPressed(KeyEvent e) {
-        int code = e.getKeyCode();
-        System.out.println("Code: " + code);
-        this.keyPressed(code);
-    }
-
-    public void keyReleased(KeyEvent e) {
-        int code = e.getKeyCode();
-        System.out.println("Code: " + code);
-        this.keyReleased(code);
+    public boolean isMouseOverElement() {
+        Rectangle rectangle = this.getBoundingBox();
+        return rectangle.contains(VoxelElementHandler.TRACKED_MOUSE_POSITION);
     }
 
     public abstract void draw(UiUtilities uiUtilities);
+
     public void delete() {
-        ScreenHandler.ACTIVE_ELEMENTS_LIST.remove(this);
+
     }
-    public void keyTyped(int buttonNumber) {}
-    public void keyPressed(int buttonNumber) {}
-    public void keyReleased(int buttonNumber) {}
 
-    public void onRightClick() {}
-    public void onLeftClick() {}
-    public void onMiddleClick() {}
+    public VoxelElementList setUpdateTask(Consumer<VoxelElement> updateTask) {
+        this.updateTask = updateTask;
+        return (VoxelElementList) this;
+    }
 
+    public boolean canUpdate() {
+        return updateTask != null;
+    }
 
-    public void mouseClicked(MouseEvent e) {
-        if(SwingUtilities.isLeftMouseButton(e)) {
-            onLeftClick();
-        } else if (SwingUtilities.isRightMouseButton(e)) {
-            onRightClick();
-        } else if (SwingUtilities.isMiddleMouseButton(e)) {
-            onMiddleClick();
+    public void update() {
+        if(canUpdate()) {
+            updateTask.accept(this);
         }
     }
 
+    public abstract void updateBoundingBox(int x, int y, int width, int height);
+    public abstract void move(int x, int y);
+
+    public abstract Rectangle getBoundingBox();
+
+    public void onMouseClick(MouseEvent e) {}
+    public void onMousePress(MouseEvent e) {}
+    public void onMouseRelease(MouseEvent e) {}
+    public void onMouseEnter(MouseEvent e) {}
+    public void onMouseExit(MouseEvent e) {}
+    public void onMouseDrag(MouseEvent e) {}
+    public void onMouseMove(MouseEvent e) {}
+    public void onMouseWheelMove(MouseWheelEvent e) {}
+    public void onKeyTyped(KeyEvent e) {}
+    public void onKeyPressed(KeyEvent e) {}
+    public void onKeyReleased(KeyEvent e) {}
+
+
+    // If true disables default on Logic
+    public boolean customMouseClick(MouseEvent e) {
+        return false;
+    }
+
+    public boolean customMousePress(MouseEvent e) {
+        return false;
+    }
+
+    public boolean customMouseRelease(MouseEvent e) {
+        return false;
+    }
+
+    public boolean customMouseEnter(MouseEvent e) {
+        return false;
+    }
+
+    public boolean customMouseExit(MouseEvent e) {
+        return false;
+    }
+
+    public boolean customMouseDrag(MouseEvent e) {
+        return false;
+    }
+
+    public boolean customMouseMove(MouseEvent e) {
+        return false;
+    }
+
+    public boolean customMouseWheelMove(MouseWheelEvent e) {
+        return false;
+    }
+
+    public boolean customKeyTyped(KeyEvent e) {
+        return false;
+    }
+
+    public boolean customKeyPressed(KeyEvent e) {
+        return false;
+    }
+
+    public boolean customKeyReleased(KeyEvent e) {
+        return false;
+    }
+
+    public boolean isRightClick(MouseEvent e) {
+        return SwingUtilities.isRightMouseButton(e);
+    }
+
+    public boolean isLeftClick(MouseEvent e) {
+        return SwingUtilities.isLeftMouseButton(e);
+    }
+    public boolean isMiddleClick(MouseEvent e) {
+        return SwingUtilities.isMiddleMouseButton(e);
+    }
 
 }

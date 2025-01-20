@@ -20,4 +20,5 @@ public enum UiStyle {
     public Font getFont() {
         return font;
     }
+
 }

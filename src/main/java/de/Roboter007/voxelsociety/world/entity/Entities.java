@@ -4,5 +4,5 @@ import de.Roboter007.voxelsociety.world.Worlds;
 
 public class Entities {
 
-    public static final Player PLAYER = new Player(Worlds.MAIN_WORLD);
+    public static Player PLAYER = new Player("Roboter007",null);
 }

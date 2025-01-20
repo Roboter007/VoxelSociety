@@ -1,8 +1,9 @@
 package de.Roboter007.voxelsociety.world.entity;
 
+import de.Roboter007.voxelsociety.utils.texture.Texture;
 import de.Roboter007.voxelsociety.world.World;
 import de.Roboter007.voxelsociety.world.entity.animation.AnimationState;
-import de.Roboter007.voxelsociety.utils.TextureLocation;
+import de.Roboter007.voxelsociety.utils.texture.PathLocation;
 
 public abstract class AnimatedEntity extends Entity {
     protected AnimationState animationState = AnimationState.DOWN;
@@ -10,7 +11,7 @@ public abstract class AnimatedEntity extends Entity {
 
     protected int animationCooldown = 0;
     protected final int maxAnimationCooldown;
-    protected TextureLocation textureLocation = TextureLocation.voxelSociety("player", "player_" + this.animationState.getName() + "_" + spriteNumber + ".png");
+    protected Texture pathLocation = Texture.voxelSociety("player", "player_" + this.animationState.getName() + "_" + spriteNumber + ".png");
 
 
     public AnimatedEntity(World world, int maxAnimationCooldown) {
@@ -33,7 +34,7 @@ public abstract class AnimatedEntity extends Entity {
     public abstract void updateTexture();
 
     @Override
-    public TextureLocation getTextureLocation() {
-        return textureLocation;
+    public PathLocation getTextureLocation() {
+        return pathLocation;
     }
 }

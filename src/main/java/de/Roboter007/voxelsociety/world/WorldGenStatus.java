@@ -10,8 +10,6 @@ public enum WorldGenStatus {
     FINISHED(5);
 
 
-    private static WorldGenStatus currentWorldGenStatus = NOT_STARTED;
-
     private final int status;
 
     WorldGenStatus(int status) {
@@ -22,15 +20,7 @@ public enum WorldGenStatus {
         return status;
     }
 
-    public boolean equalsCurrent() {
-        return this == currentWorldGenStatus;
-    }
-
-    public static void setCurrentWorldGenStatus(WorldGenStatus status) {
-        currentWorldGenStatus = status;
-    }
-
-    public static boolean isStatus(WorldGenStatus status) {
-        return currentWorldGenStatus == status;
+    public WorldGenStatus getStatus(int i) {
+        return WorldGenStatus.values()[i];
     }
 }

@@ -2,34 +2,28 @@ package de.Roboter007.voxelsociety.world.collision;
 
 import de.Roboter007.voxelsociety.world.World;
 import de.Roboter007.voxelsociety.world.block.BlockEntry;
-import de.Roboter007.voxelsociety.world.block.BlockRegistry;
 import de.Roboter007.voxelsociety.world.entity.Entity;
 import de.Roboter007.voxelsociety.utils.VoxelPanel;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 public class CollisionBox extends Rectangle {
 
     private boolean collision;
-    private final World world;
 
-    public CollisionBox(World world, int x, int y, int width, int height, boolean collision) {
+    public CollisionBox(int x, int y, int width, int height, boolean collision) {
         super(x, y, width, height);
         this.collision = collision;
-        this.world = world;
     }
 
     public CollisionBox(World world) {
         super();
         this.collision = true;
-        this.world = world;
     }
 
     public CollisionBox(World world, Rectangle r) {
         super(r.x, r.y, r.width, r.height);
         this.collision = true;
-        this.world = world;
     }
 
     public Rectangle getRectangle() {
@@ -37,7 +31,7 @@ public class CollisionBox extends Rectangle {
     }
 
     public CollisionBox(CollisionBox c) {
-        this(c.world, c.x, c.y, c.width, c.height, c.collision);
+        this(c.x, c.y, c.width, c.height, c.collision);
     }
 
     public boolean isCollisionOn() {
@@ -49,6 +43,8 @@ public class CollisionBox extends Rectangle {
     }
 
     public void checkBlock(Entity entity) {
+        World world = entity.world;
+
         int entityLeftWorldX = entity.blockPosition.getX() + entity.collisionBox.x;
         int entityRightWorldX = entity.blockPosition.getX() + entity.collisionBox.x + entity.collisionBox.width;
         int entityTopWorldY = entity.blockPosition.getY() + entity.collisionBox.y;
@@ -62,8 +58,8 @@ public class CollisionBox extends Rectangle {
         switch (entity.direction) {
             case "up" -> {
                 entityTopRow = ((entityTopWorldY - entity.speed) / VoxelPanel.tileSize);
-                BlockEntry blockEntry1 = world.getBlock(entityLeftCol,entityTopRow);
-                BlockEntry blockEntry2 = world.getBlock(entityRightCol,entityTopRow);
+                BlockEntry blockEntry1 = world.getBlockEntry(entityLeftCol, entityTopRow);
+                BlockEntry blockEntry2 = world.getBlockEntry(entityRightCol, entityTopRow);
 
                 if (blockEntry1 != null && blockEntry2 != null) {
                     if (blockEntry1.canCollide() || blockEntry2.canCollide()) {
@@ -73,8 +69,8 @@ public class CollisionBox extends Rectangle {
             }
             case "down" -> {
                 entityBottomRow = (entityBottomWorldY + entity.speed) / VoxelPanel.tileSize;
-                BlockEntry blockEntry1 = world.getBlock(entityLeftCol,entityBottomRow);
-                BlockEntry blockEntry2 = world.getBlock(entityRightCol,entityBottomRow);
+                BlockEntry blockEntry1 = world.getBlockEntry(entityLeftCol, entityBottomRow);
+                BlockEntry blockEntry2 = world.getBlockEntry(entityRightCol, entityBottomRow);
 
                 if (blockEntry1 != null && blockEntry2 != null) {
                     if (blockEntry1.canCollide() || blockEntry2.canCollide()) {
@@ -84,8 +80,8 @@ public class CollisionBox extends Rectangle {
             }
             case "left" -> {
                 entityLeftCol = (entityLeftWorldX - entity.speed) / VoxelPanel.tileSize;
-                BlockEntry blockEntry1 = world.getBlock(entityLeftCol,entityTopRow);
-                BlockEntry blockEntry2 = world.getBlock(entityLeftCol,entityBottomRow);
+                BlockEntry blockEntry1 = world.getBlockEntry(entityLeftCol, entityTopRow);
+                BlockEntry blockEntry2 = world.getBlockEntry(entityLeftCol, entityBottomRow);
 
                 if (blockEntry1 != null && blockEntry2 != null) {
                     if (blockEntry1.canCollide() || blockEntry2.canCollide()) {
@@ -95,8 +91,8 @@ public class CollisionBox extends Rectangle {
             }
             case "right" -> {
                 entityRightCol = (entityRightWorldX + entity.speed) / VoxelPanel.tileSize;
-                BlockEntry blockEntry1 = world.getBlock(entityRightCol,entityTopRow);
-                BlockEntry blockEntry2 = world.getBlock(entityRightCol,entityBottomRow);
+                BlockEntry blockEntry1 = world.getBlockEntry(entityRightCol, entityTopRow);
+                BlockEntry blockEntry2 = world.getBlockEntry(entityRightCol, entityBottomRow);
 
                 if (blockEntry1 != null && blockEntry2 != null) {
                     if (blockEntry1.canCollide() || blockEntry2.canCollide()) {
@@ -104,8 +100,8 @@ public class CollisionBox extends Rectangle {
                     }
                 }
             }
-        }
 
+        }
 
     }
 

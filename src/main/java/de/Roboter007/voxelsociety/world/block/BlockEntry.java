@@ -1,17 +1,24 @@
 package de.Roboter007.voxelsociety.world.block;
 
-import de.Roboter007.voxelsociety.utils.TextureLocation;
-import de.Roboter007.voxelsociety.world.Layerable;
+import de.Roboter007.voxelsociety.utils.texture.Texture;
+import de.Roboter007.voxelsociety.utils.texture.PathLocation;
 
-public class BlockEntry implements Layerable {
-    private final TextureLocation textureLocation;
+public class BlockEntry {
+    private final Texture texture;
     private boolean collision;
-    private int renderLayer;
+    private final String name;
 
-    public BlockEntry(TextureLocation textureLocation, boolean collision, int layer) {
-        this.textureLocation = textureLocation;
+    public BlockEntry(Texture texture, boolean collision) {
+        this.name = texture.texturePath().file();
+        this.texture = texture;
         this.collision = collision;
-        this.renderLayer = layer;
+        BlockRegistry.registerBlock(this);
+    }
+
+    public BlockEntry(String name, boolean collision) {
+        this.name = name;
+        this.texture = Texture.voxelSociety("block", name + ".png");
+        this.collision = collision;
         BlockRegistry.registerBlock(this);
     }
 
@@ -27,18 +34,12 @@ public class BlockEntry implements Layerable {
         return BlockRegistry.getBlockId(this);
     }
 
-    public TextureLocation getTextureLocation() {
-        return textureLocation;
+    public Texture getTexture() {
+        return texture;
     }
 
-    @Override
-    public int getLayer() {
-        return renderLayer;
-    }
-
-    @Override
-    public void setLayer(int layer) {
-        this.renderLayer = layer;
+    public String getName() {
+        return name;
     }
 
 }

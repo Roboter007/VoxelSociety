@@ -1,14 +1,18 @@
 package de.Roboter007.voxelsociety.world.block;
 
-import de.Roboter007.voxelsociety.utils.TextureLocation;
-
 public class Blocks {
 
     public static void loadTextures() {}
 
-    public static BlockEntry GRASS = new BlockEntry(TextureLocation.voxelSociety("block", "grass_block.png"), false, 1);
-    public static BlockEntry STONE = new BlockEntry(TextureLocation.voxelSociety("block", "stone.png"), false, 1);
-    public static BlockEntry ROCK = new BlockEntry(TextureLocation.voxelSociety("block", "rock.png"), true, 1);
-    public static BlockEntry HILL = new BlockEntry(TextureLocation.voxelSociety("block", "hill.png"), true, 1);
-    public static BlockEntry SAND = new BlockEntry(TextureLocation.voxelSociety("block", "sand.png"), false, 1);
+    public static BlockEntry AIR = new BlockEntry("air", false);
+    public static BlockEntry GRASS = new BlockEntry("grass_block", false);
+    public static BlockEntry DIRT = new BlockEntry("dirt", false);
+    public static BlockEntry STONE = new BlockEntry("stone", false);
+    public static BlockEntry SAND = new BlockEntry("sand", false);
+    public static BlockEntry WATER = new BlockEntry("water", false);
+    public static BlockEntry GRAVEL = new BlockEntry("gravel", true);
+    public static BlockEntry OAK_PLANKS = new BlockEntry( "oak_planks", true);
+    public static BlockEntry OAK_TREE = new BlockEntry("oak_tree", true);
+    public static BlockEntry CLAIM_MARKER = new BlockEntry("marker", false);
+    public static BlockEntry CHEST = new BlockEntry("chest", true);
 }

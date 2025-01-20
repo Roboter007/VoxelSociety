@@ -15,6 +15,6 @@ public class PlayerEvent extends Event implements Cancelable {
 
     @Override
     public void setCanceled(boolean canceled) {
-
+        this.canceled = canceled;
     }
 }

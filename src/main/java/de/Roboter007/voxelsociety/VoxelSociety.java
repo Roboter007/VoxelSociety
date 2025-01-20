@@ -1,37 +1,37 @@
 package de.Roboter007.voxelsociety;
 
-import de.Roboter007.voxelsociety.utils.TextureManager;
+import de.Roboter007.voxelsociety.api.tester.PerformanceTester;
+import de.Roboter007.voxelsociety.utils.texture.TextureManager;
 import de.Roboter007.voxelsociety.utils.VoxelFrame;
 import de.Roboter007.voxelsociety.utils.VoxelPanel;
-import de.Roboter007.voxelsociety.world.Worlds;
-import de.Roboter007.voxelsociety.world.block.Blocks;
+import de.Roboter007.voxelsociety.utils.VoxelPaths;
 
+import java.io.File;
 import java.util.concurrent.*;
 import java.util.logging.Logger;
 
 import static java.util.concurrent.ForkJoinPool.defaultForkJoinWorkerThreadFactory;
 
-public class VoxelSociety {
+public class VoxelSociety  {
 
-    public static String GAME_NAME = "VoxelSociety";
+    public static String GAME_NAME = "Voxel Society";
+    public static String GAME_ID = "voxelsociety";
     public static Logger LOGGER = Logger.getLogger(GAME_NAME);
     public static TextureManager TEXTURE_MANAGER = new TextureManager();
     public static ExecutorService SERVICE = new ForkJoinPool(Math.min(0x7fff, Runtime.getRuntime().availableProcessors()),
             defaultForkJoinWorkerThreadFactory, null, true,
-            0, 0x7fff, 1, null, 60_000L, TimeUnit.MILLISECONDS);
+            2, 0x7fff, 1, null, 60_000L, TimeUnit.MILLISECONDS);
     public VoxelSociety() {}
 
-    public static VoxelPanel voxelPanel = null;
+    public static PerformanceTester VOXEL_PERF_TESTER = new PerformanceTester();
+    public static VoxelPaths VOXEL_PATHS = new VoxelPaths();
+
 
     public static void main(String[] args) {
-        Blocks.loadTextures();
-        Worlds.loadWorlds();
-
         VoxelPanel gamePanel = new VoxelPanel();
-        voxelPanel = gamePanel;
         VoxelFrame window = new VoxelFrame(gamePanel);
-
-        //ScreenHandler.setCurrentScreen(new InGameScreen(gamePanel.uiUtilities));
+        //ScreenHandler.setFocusedScreen(new LoadingScreen());
+        System.out.println("Game Folder Path: " + VOXEL_PATHS.getVoxelGamePath());
 
         /*GraphicsEnvironment ge = GraphicsEnvironment
                 .getLocalGraphicsEnvironment();
@@ -42,6 +42,26 @@ public class VoxelSociety {
 
             System.out.println(font.getFontName(Locale.US));
         } */
+    }
+
+
+
+    public static void deleteFolder(File folder, Runnable taskOnDeletion) {
+        File[] files = folder.listFiles();
+        if(files!=null) {
+            for(File f: files) {
+                if(f.isDirectory()) {
+                    deleteFolder(f, null);
+                } else {
+                    f.delete();
+                }
+            }
+        }
+        folder.delete();
+
+        if(taskOnDeletion != null) {
+            taskOnDeletion.run();
+        }
     }
 
 }

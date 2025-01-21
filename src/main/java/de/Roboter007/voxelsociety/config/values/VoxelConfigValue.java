@@ -10,7 +10,7 @@ public class VoxelConfigValue<T> {
 
     public VoxelConfigValue(Class<?> clazz, String name, T value) {
         if(value.getClass() != clazz) {
-            System.out.println("Error! Value or Fallback have the wrong Class!!! current: " + value.getClass() + ", expected: " + clazz);
+            System.out.println("Error! Value has the wrong Class!!! current: " + value.getClass() + ", expected: " + clazz);
         }
         this.clazz = clazz;
         this.value = value;

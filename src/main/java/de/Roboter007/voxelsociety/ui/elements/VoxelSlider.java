@@ -93,9 +93,9 @@ public class VoxelSlider<N extends Number> extends VoxelElement {
     @Override
     public Rectangle getBoundingBox() {
         if(direction == Direction.HORIZONTAL) {
-            return new Rectangle(this.x, this.y, this.width + sliderWidth, height);
-        } else {
             return new Rectangle(this.x, this.y, height, width + sliderWidth);
+        } else {
+            return new Rectangle(this.x, this.y, this.width + sliderWidth, height);
         }
     }
 
@@ -120,7 +120,7 @@ public class VoxelSlider<N extends Number> extends VoxelElement {
     }
 
     public Rectangle getSlider() {
-        if(direction == Direction.VERTICAL) {
+        if(direction == Direction.HORIZONTAL) {
             return new Rectangle(this.x, this.y + number.intValue(), height, sliderWidth);
         } else {
             return new Rectangle(this.x + number.intValue(), this.y, sliderWidth, height);
@@ -170,13 +170,30 @@ public class VoxelSlider<N extends Number> extends VoxelElement {
         return true;
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean customMouseClick(MouseEvent e) {
+        Point clickedPos = e.getPoint();
+        if(this.selected) {
+            if(direction == Direction.HORIZONTAL) {
+                this.number = (N) ((Integer) (clickedPos.y - this.getBoundingBox().y));
+                updatePos();
+            } else {
+                this.number = (N) ((Integer) (clickedPos.x - this.getBoundingBox().x));
+                updatePos();
+            }
+
+        }
+        return true;
+    }
+
     int prevX, prevY;
 
 
     @Override
     public boolean customMouseDrag(MouseEvent e) {
         if(this.getSlider().contains(e.getPoint()) && sliderPressed) {
-            if(direction == Direction.VERTICAL) {
+            if(direction == Direction.HORIZONTAL) {
                 int y = e.getYOnScreen();
                 if (y < prevY) {
                     N num = numberCalc.subtract(this.number, this.moveCount);

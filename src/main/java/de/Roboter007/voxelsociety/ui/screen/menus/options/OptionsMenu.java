@@ -14,7 +14,7 @@ import de.Roboter007.voxelsociety.utils.VoxelPanel;
 
 import java.awt.*;
 
-import static de.Roboter007.voxelsociety.config.OptionsConfig.options;
+//import static de.Roboter007.voxelsociety.config.OptionsConfig.options;
 
 public class OptionsMenu extends AmbientMenu {
 
@@ -49,9 +49,9 @@ public class OptionsMenu extends AmbientMenu {
 
         recCalculator.calc(300, 100);
         int defaultFps = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getRefreshRate();
-        drawElement(1, uiUtilities, new VoxelSlider<>(VoxelSlider.Direction.HORIZONTAL, "Fps: ", UiStyle.DEFAULT, recCalculator.getX(), recCalculator.getY(), 100, 1, 0, 300, defaultFps, 1, (fps) -> {
+        drawElement(1, uiUtilities, new VoxelSlider<>(VoxelSlider.Direction.VERTICAL, "Fps: ", UiStyle.DEFAULT, recCalculator.getX(), recCalculator.getY(), 100, 1, 0, 300, defaultFps, 1, (fps) -> {
             //VoxelPanel.fps_limit = fps;
-            options.setOption(0, fps);
+            //options.setOption(0, fps);
             System.out.println("Fps Limit: " + VoxelPanel.fps_limit);
         }));
 

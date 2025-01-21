@@ -30,7 +30,8 @@ public class VoxelPanel extends JPanel implements Runnable {
     private Thread thread;
     public UiUtilities uiUtilities = null;
 
-    public static int fps_limit = Integer.parseInt(OptionsConfig.options.getOptionWithFallback(0, String.valueOf(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getRefreshRate())));
+    //public static int fps_limit = Integer.parseInt(OptionsConfig.options.getOptionWithFallback(0, String.valueOf(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getRefreshRate())));
+    public static int fps_limit = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getRefreshRate();
     public static int fps = 0;
     public long timePassedNano;
     public double timePassedSec;

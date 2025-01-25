@@ -20,8 +20,8 @@ public class Texture extends PathLocation {
         this.height = height;
     }
 
-    public Texture(TexturePath texturePath, int width, int height) {
-        super(texturePath);
+    public Texture(SourcePath sourcePath, int width, int height) {
+        super(sourcePath);
         this.width = width;
         this.height = height;
     }
@@ -44,22 +44,22 @@ public class Texture extends PathLocation {
 
     public BufferedImage loadImage() {
         try {
-            InputStream inputStream = getClass().getResourceAsStream(texturePath.fullLocation());
+            InputStream inputStream = getClass().getResourceAsStream(sourcePath.fullLocation());
             if (inputStream != null) {
-                VoxelSociety.LOGGER.info("Loading Texture... " + texturePath.file());
+                VoxelSociety.LOGGER.info("Loading Texture... " + sourcePath.file());
                 BufferedImage scaledImage = scaleImage(ImageIO.read(inputStream), width, height);
 
                 if(scaledImage != null) {
-                    VoxelSociety.TEXTURE_MANAGER.registerTexture(texturePath, scaledImage);
-                    VoxelSociety.LOGGER.info("Loaded Texture: " + texturePath.file());
+                    VoxelSociety.TEXTURE_MANAGER.registerTexture(sourcePath, scaledImage);
+                    VoxelSociety.LOGGER.info("Loaded Texture: " + sourcePath.file());
                 } else {
-                    VoxelSociety.LOGGER.info("Couldn't load Textures: " + texturePath.fullLocation());
+                    VoxelSociety.LOGGER.info("Couldn't load Textures: " + sourcePath.fullLocation());
                 }
 
                 return scaledImage;
             }
         } catch (IOException e) {
-            VoxelSociety.LOGGER.info("Couldn't load Textures: " + texturePath.fullLocation());
+            VoxelSociety.LOGGER.info("Couldn't load Textures: " + sourcePath.fullLocation());
         }
         return null;
     }
@@ -70,10 +70,10 @@ public class Texture extends PathLocation {
     }
 
     public BufferedImage load() {
-        if (!VoxelSociety.TEXTURE_MANAGER.textureRegistered(texturePath)) {
+        if (!VoxelSociety.TEXTURE_MANAGER.textureRegistered(sourcePath)) {
             return loadImage();
         } else {
-            return VoxelSociety.TEXTURE_MANAGER.getTexture(texturePath);
+            return VoxelSociety.TEXTURE_MANAGER.getTexture(sourcePath);
         }
     }
 

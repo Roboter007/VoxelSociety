@@ -10,22 +10,22 @@ public class TextureManager {
 
     }
 
-    public void registerTexture(TexturePath texturePath, BufferedImage bufferedImage) {
-        if(!textureRegistered(texturePath)) {
-            textureRegistry.put(texturePath.fullLocation(), bufferedImage);
+    public void registerTexture(SourcePath sourcePath, BufferedImage bufferedImage) {
+        if(!textureRegistered(sourcePath)) {
+            textureRegistry.put(sourcePath.fullLocation(), bufferedImage);
         }
     }
 
     public void unregisterTexture(PathLocation pathLocation) {
-        textureRegistry.remove(pathLocation.texturePath.fullLocation());
+        textureRegistry.remove(pathLocation.sourcePath.fullLocation());
     }
 
-    public BufferedImage getTexture(TexturePath texturePath) {
-        return textureRegistry.get(texturePath.fullLocation());
+    public BufferedImage getTexture(SourcePath sourcePath) {
+        return textureRegistry.get(sourcePath.fullLocation());
     }
 
-    public boolean textureRegistered(TexturePath texturePath) {
-        return textureRegistry.containsKey(texturePath.fullLocation());
+    public boolean textureRegistered(SourcePath sourcePath) {
+        return textureRegistry.containsKey(sourcePath.fullLocation());
     }
 
 }

@@ -12,8 +12,8 @@ public class VoxelFrame extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle(VoxelSociety.GAME_NAME);
 
-        this.add(voxelPanel);
         voxelPanel.startGameThread();
+        this.add(voxelPanel);
 
         this.pack();
 

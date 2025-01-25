@@ -1,72 +1,67 @@
 package de.Roboter007.voxelsociety.config.values;
 
-import de.Roboter007.voxelsociety.config.VoxelConfig;
+import de.Roboter007.voxelsociety.config.holder.StringHolder;
 
-public class VoxelConfigValue<T> {
+public abstract class VoxelConfigValue<V> {
 
-    private Class<?> clazz;
-    private T value;
-    private String name;
+    private V value;
 
-    public VoxelConfigValue(Class<?> clazz, String name, T value) {
-        if(value.getClass() != clazz) {
-            System.out.println("Error! Value has the wrong Class!!! current: " + value.getClass() + ", expected: " + clazz);
-        }
-        this.clazz = clazz;
+    public VoxelConfigValue(V value) {
         this.value = value;
-        this.name = name;}
-
-    public VoxelConfigValue(Class<?> clazz, String name) {
-        this.clazz = clazz;
-        this.name = name;
     }
 
-    public T getValue() {
+    public VoxelConfigValue(StringHolder stringHolder) {
+        this.value = fromString(stringHolder.string());
+    }
+
+
+    public V getValue() {
         return value;
     }
 
-    public String getName() {
-        return name;
-    }
-
-
-    public void setValue(T value) {
+    public void setValue(V value) {
         this.value = value;
     }
 
-    public void addToConfig(VoxelConfig voxelConfig) {
-        voxelConfig.addOption(this);
-    }
+    public abstract String toString();
+    public abstract V fromString(String str);
 
-    @Override
-    public String toString() {
-        return this.clazz.getCanonicalName() + "=" + name + "=" + value;
-    }
+    public static VoxelConfigValue<?> newFromString(String str) {
+        String[] splitData = str.split("\\$");
 
-    @SuppressWarnings("unchecked")
-    public void fromString(String data) {
-        String[] dataList = data.split("=");
-
-        try {
-            this.clazz = Class.forName(dataList[0]);
-            this.name = dataList[1];
-            this.value = (T) dataList[2];
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        String dataType = splitData[0];
+        switch (dataType) {
+            case "boolean" -> {
+                return new BooleanConfigValue(new StringHolder(str));
+            }
+            case "byte" -> {
+                return new ByteConfigValue(new StringHolder(str));
+            }
+            case "char" -> {
+                return new CharConfigValue(new StringHolder(str));
+            }
+            case "double" -> {
+                return new DoubleConfigValue(new StringHolder(str));
+            }
+            case "float" -> {
+                return new FloatConfigValue(new StringHolder(str));
+            }
+            case "integer" -> {
+                return new IntConfigValue(new StringHolder(str));
+            }
+            case "long" -> {
+                return new LongConfigValue(new StringHolder(str));
+            }
+            case "short" -> {
+                return new ShortConfigValue(new StringHolder(str));
+            }
+            case "string" -> {
+                return new StringConfigValue(new StringHolder(str));
+            }
+            default -> {
+                System.out.println("Error! This Config Value does not exist!");
+                return null;
+            }
         }
     }
-
-    @SuppressWarnings("unchecked")
-    public static <T> VoxelConfigValue<T> newConfigValue(String data) {
-        try {
-
-            String[] dataList = data.split("=");
-
-            return new VoxelConfigValue<>(Class.forName(dataList[0]), dataList[1], (T) dataList[2]);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
 }

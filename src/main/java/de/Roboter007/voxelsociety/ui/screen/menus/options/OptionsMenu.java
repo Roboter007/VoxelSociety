@@ -1,8 +1,6 @@
 package de.Roboter007.voxelsociety.ui.screen.menus.options;
 
 import de.Roboter007.voxelsociety.api.RecCalculator;
-import de.Roboter007.voxelsociety.config.OptionsConfig;
-import de.Roboter007.voxelsociety.config.values.VoxelConfigValue;
 import de.Roboter007.voxelsociety.ui.UiStyle;
 import de.Roboter007.voxelsociety.ui.UiUtilities;
 import de.Roboter007.voxelsociety.ui.elements.*;
@@ -14,7 +12,7 @@ import de.Roboter007.voxelsociety.utils.VoxelPanel;
 
 import java.awt.*;
 
-//import static de.Roboter007.voxelsociety.config.OptionsConfig.options;
+import static de.Roboter007.voxelsociety.config.VoxelConfigs.optionsConfig;
 
 public class OptionsMenu extends AmbientMenu {
 
@@ -48,11 +46,10 @@ public class OptionsMenu extends AmbientMenu {
         }));
 
         recCalculator.calc(300, 100);
-        int defaultFps = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getRefreshRate();
-        drawElement(1, uiUtilities, new VoxelSlider<>(VoxelSlider.Direction.VERTICAL, "Fps: ", UiStyle.DEFAULT, recCalculator.getX(), recCalculator.getY(), 100, 1, 0, 300, defaultFps, 1, (fps) -> {
+        drawElement(1, uiUtilities, new VoxelSlider<>(VoxelSlider.Direction.VERTICAL, "Fps: ", UiStyle.DEFAULT, recCalculator.getX(), recCalculator.getY(), 100, 1, 0, 300, VoxelPanel.getFPSLimit(), 1, (fps) -> {
             //VoxelPanel.fps_limit = fps;
-            //options.setOption(0, fps);
-            System.out.println("Fps Limit: " + VoxelPanel.fps_limit);
+            optionsConfig.setOption(0, fps);
+            System.out.println("Fps Limit: " + VoxelPanel.getFPSLimit());
         }));
 
        /* drawElement(1, uiUtilities, new VoxelSlider<>(VoxelSlider.Direction.VERTICAL, "Test: ", UiStyle.DEFAULT, 0, 100, 100, 5,0F, 10F,1F, 0.5F, (test2) -> test3 = test2));

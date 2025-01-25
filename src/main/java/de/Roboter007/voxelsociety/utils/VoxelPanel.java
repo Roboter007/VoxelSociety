@@ -1,17 +1,14 @@
 package de.Roboter007.voxelsociety.utils;
 
 import de.Roboter007.voxelsociety.VoxelSociety;
-import de.Roboter007.voxelsociety.config.OptionsConfig;
+import de.Roboter007.voxelsociety.config.VoxelConfigs;
 import de.Roboter007.voxelsociety.ui.UiUtilities;
-import de.Roboter007.voxelsociety.ui.elements.VoxelElement;
 import de.Roboter007.voxelsociety.ui.screen.MenuHandler;
 import de.Roboter007.voxelsociety.world.entity.Entities;
 import de.Roboter007.voxelsociety.keys.KeyHandler;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 public class VoxelPanel extends JPanel implements Runnable {
 
@@ -30,14 +27,18 @@ public class VoxelPanel extends JPanel implements Runnable {
     private Thread thread;
     public UiUtilities uiUtilities = null;
 
-    //public static int fps_limit = Integer.parseInt(OptionsConfig.options.getOptionWithFallback(0, String.valueOf(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getRefreshRate())));
-    public static int fps_limit = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getRefreshRate();
+    //public static int fps_limit = getFPSLimit();
+    public static int screen_fps_limit = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getRefreshRate();
     public static int fps = 0;
     public long timePassedNano;
     public double timePassedSec;
 
     public boolean changeWinSizeOnResize = true;
 
+
+    public static int getFPSLimit() {
+        return VoxelConfigs.optionsConfig.getOptionWithFallback(0, screen_fps_limit);
+    }
 
     public VoxelPanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -56,7 +57,7 @@ public class VoxelPanel extends JPanel implements Runnable {
         this.addMouseWheelListener(MenuHandler.getFocusedScreen().inputHandler);
         this.addKeyListener(MenuHandler.getFocusedScreen().inputHandler);
 
-        this.addComponentListener(new ComponentAdapter() {
+        /*this.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent event) {
                 if(event.getComponent() instanceof VoxelPanel voxelPanel) {
                     int difW = screenWidth - prevScreenWidth;
@@ -70,7 +71,7 @@ public class VoxelPanel extends JPanel implements Runnable {
 
                 }
             }
-        });
+        }); */
 
         this.setFocusable(true);
         this.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
@@ -128,7 +129,7 @@ public class VoxelPanel extends JPanel implements Runnable {
         int drawCount = 0;
 
         while (thread != null) {
-            double drawInterval = (double) 1000000000 / fps_limit;
+            double drawInterval = (double) 1000000000 / getFPSLimit();
             if(changeWinSizeOnResize) {
                 if(screenWidth != this.getWidth()) {
                     prevScreenWidth = screenWidth;

@@ -9,7 +9,7 @@ public class BlockEntry {
     private final String name;
 
     public BlockEntry(Texture texture, boolean collision) {
-        this.name = texture.texturePath().file();
+        this.name = texture.sourcePath().file();
         this.texture = texture;
         this.collision = collision;
         BlockRegistry.registerBlock(this);

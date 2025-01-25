@@ -26,7 +26,7 @@ public class Playlist {
     public void playTrack(String name) {
         if (!sounds.isEmpty()) {
             for (Sound sound : sounds) {
-                if (sound.texturePath().file().substring(0, sound.texturePath().file().length() - 4).equals(name)) {
+                if (sound.sourcePath().file().substring(0, sound.sourcePath().file().length() - 4).equals(name)) {
                     sound.play();
                     this.currentTrack = sound;
                 }

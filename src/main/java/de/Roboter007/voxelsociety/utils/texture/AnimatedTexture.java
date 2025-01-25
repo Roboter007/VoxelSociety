@@ -13,15 +13,15 @@ import java.util.List;
 public class AnimatedTexture extends Texture {
 
     private int frame;
-    private final List<TexturePath> texturePathList = new ArrayList<>();
+    private final List<SourcePath> sourcePathList = new ArrayList<>();
 
-    public AnimatedTexture(int width, int height, TexturePath... texturePaths) {
-        super(texturePaths[0], width, height);
-        texturePathList.addAll(List.of(texturePaths));
+    public AnimatedTexture(int width, int height, SourcePath... sourcePaths) {
+        super(sourcePaths[0], width, height);
+        sourcePathList.addAll(List.of(sourcePaths));
     }
 
-    public List<TexturePath> texturePaths() {
-        return texturePathList;
+    public List<SourcePath> texturePaths() {
+        return sourcePathList;
     }
 
     public void setFrame(int frame) {
@@ -32,25 +32,25 @@ public class AnimatedTexture extends Texture {
         return frame;
     }
 
-    public TexturePath currentFrameTexture() {
-        return texturePathList.get(frame);
+    public SourcePath currentFrameTexture() {
+        return sourcePathList.get(frame);
     }
 
     @Override
     public BufferedImage loadImage() {
-        for(TexturePath texturePath : texturePathList) {
+        for(SourcePath sourcePath : sourcePathList) {
             try {
-                InputStream inputStream = getClass().getResourceAsStream(texturePath.fullLocation());
+                InputStream inputStream = getClass().getResourceAsStream(sourcePath.fullLocation());
                 if (inputStream != null) {
                     BufferedImage scaledImage = scaleImage(ImageIO.read(inputStream), width, height);
                     if(scaledImage != null) {
-                        VoxelSociety.TEXTURE_MANAGER.registerTexture(texturePath, scaledImage);
+                        VoxelSociety.TEXTURE_MANAGER.registerTexture(sourcePath, scaledImage);
                     } else {
-                        VoxelSociety.LOGGER.info("Couldn't load Textures: " + texturePath.fullLocation());
+                        VoxelSociety.LOGGER.info("Couldn't load Textures: " + sourcePath.fullLocation());
                     }
                 }
             } catch (IOException e) {
-                VoxelSociety.LOGGER.info("Couldn't load Textures: " + texturePath.fullLocation());
+                VoxelSociety.LOGGER.info("Couldn't load Textures: " + sourcePath.fullLocation());
             }
         }
 

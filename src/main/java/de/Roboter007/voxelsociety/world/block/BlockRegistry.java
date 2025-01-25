@@ -27,7 +27,7 @@ public class BlockRegistry {
         Texture texture = blockEntry.getTexture();
         if(texture != null) {
             texture.load();
-            System.out.println("Loaded Texture for Block: " + texture.texturePath().fullLocation());
+            System.out.println("Loaded Texture for Block: " + texture.sourcePath().fullLocation());
         }
         BLOCKS.add(blockEntry);
     }

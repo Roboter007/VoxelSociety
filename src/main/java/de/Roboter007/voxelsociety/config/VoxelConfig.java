@@ -3,39 +3,33 @@ package de.Roboter007.voxelsociety.config;
 import de.Roboter007.voxelsociety.VoxelSociety;
 import de.Roboter007.voxelsociety.config.values.VoxelConfigValue;
 import de.Roboter007.voxelsociety.utils.VoxelPaths;
-import de.Roboter007.voxelsociety.world.WorldSettings;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public abstract class VoxelConfig {
 
-    private List<VoxelConfigValue<?>> options = Collections.synchronizedList(new ArrayList<>());
+    private final List<VoxelConfigOption<?>> defaultOptions;
+    private List<VoxelConfigOption<?>> options;
     private final String path;
     private final File file;
 
-    public VoxelConfig(String path) {
+    public VoxelConfig(String path, List<VoxelConfigOption<?>> defaultOptions) {
+        this.defaultOptions = defaultOptions;
         this.path = path;
         this.file = new File(this.path);
-        getDefaultConfigPath();
-        this.options.addAll(getDefaultOptions());
-        saveToFile();
+        this.options = read();
     }
 
-    public VoxelConfig(String path, List<VoxelConfigValue<?>> options) {
-        this(path);
-        this.options.addAll(options);
+    public List<VoxelConfigOption<?>> getDefaultOptions() {
+        return defaultOptions;
     }
 
-    public abstract List<VoxelConfigValue<?>> getDefaultOptions();
-
-    public List<VoxelConfigValue<?>> getOptions() {
+    public List<VoxelConfigOption<?>> getOptions() {
         return options;
     }
 
@@ -47,71 +41,79 @@ public abstract class VoxelConfig {
         return path;
     }
 
-    public void setOptions(List<VoxelConfigValue<?>> options) {
+    public void setOptions(List<VoxelConfigOption<?>> options) {
         this.options = options;
     }
 
-    public void addOption(VoxelConfigValue<?> value) {
-        this.options.add(value);
-    }
 
-    @SuppressWarnings("unchecked")
-    public <T> void setOption(int opId, T newValue) {
-        VoxelConfigValue<T> value = (VoxelConfigValue<T>) this.options.get(opId);
-        value.setValue(newValue);
-        this.options.set(opId, value);
+    public <T> void setOption(int opId, T newData) {
+        VoxelConfigOption<T> configOption = getConfigOption(opId);
+
+        VoxelConfigValue<T> data = configOption.getValue();
+        data.setValue(newData);
+
+        configOption.setValue(data);
+
+        this.options.set(opId, configOption);
+
         saveToFile();
     }
 
+
+
     @SuppressWarnings("unchecked")
-    public <T> T getOption(int opId) {
-        return (T) this.options.get(opId).getValue();
+    public <T> T getValue(int opId) {
+        return (T) this.options.get(opId).getValue().getValue();
     }
 
     @SuppressWarnings("unchecked")
-    public <T> String getOptionWithFallback(int opId, String fallback) {
-        if(this.options.get(opId).getValue() == null) {
+    public <T> VoxelConfigOption<T> getConfigOption(int opId) {
+        return (VoxelConfigOption<T>) this.options.get(opId);
+    }
+
+    public <T> T getOptionWithFallback(int opId, T fallback) {
+        T data = getValue(opId);
+
+        if(data == null) {
             return fallback;
         } else {
-            return (String) this.options.get(opId).getValue();
-        }
-    }
-    public void read() {
-        this.options.clear();
-        List<String> dataList = VoxelPaths.readLines(file.getPath());
-
-        for(String data : dataList) {
-            this.options.add(VoxelConfigValue.newConfigValue(data));
+            return data;
         }
     }
 
-    public static WorldSettings fromFile(String worldName, File file) {
-        if(file.exists()) {
-            List<String> lines = VoxelPaths.readLines(file.getPath());
-            List<Object> worldOptions = new ArrayList<>();
-            for(String line : lines) {
-                int index = lines.indexOf(line);
-                worldOptions.add(index, line);
+    public List<VoxelConfigOption<?>> read() {
+        List<VoxelConfigOption<?>> options = new ArrayList<>();
+
+        if(file != null) {
+            List<String> dataList = VoxelPaths.readLines(file.getPath());
+
+            if (dataList.isEmpty()) {
+                return defaultOptions;
             }
-            return new WorldSettings(worldName, worldOptions);
-        } else {
-            System.out.println("Couldn't find file: " + file.getPath());
+
+            for (String data : dataList) {
+                options.add(VoxelConfigOption.newConfigValue(data));
+            }
         }
 
-        return null;
+        return options;
     }
+
 
     public void saveToFile() {
         if(!file.exists()) {
             try {
                 this.file.createNewFile();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                System.out.println("File could not be created!!!");
             }
         }
+
         List<String> lines = new ArrayList<>();
 
-        for(VoxelConfigValue<?> value : this.options) {
+
+        for(VoxelConfigOption<?> value : this.options) {
+            System.out.println(value);
             lines.add(value.toString());
         }
 

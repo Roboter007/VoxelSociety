@@ -1,12 +1,9 @@
 package de.Roboter007.voxelsociety.sound;
 
 import de.Roboter007.voxelsociety.VoxelSociety;
-import de.Roboter007.voxelsociety.utils.VoxelPanel;
 import de.Roboter007.voxelsociety.utils.texture.PathLocation;
-import de.Roboter007.voxelsociety.utils.texture.Texture;
-import de.Roboter007.voxelsociety.utils.texture.TexturePath;
+import de.Roboter007.voxelsociety.utils.texture.SourcePath;
 
-import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -22,7 +19,7 @@ public class Sound extends PathLocation {
     public Sound(SoundType soundType, String key, String location, String file) {
         super(key, location, file);
         this.soundType = soundType;
-        URL resource = getClass().getResource(this.texturePath.fullLocation());
+        URL resource = getClass().getResource(this.sourcePath.fullLocation());
         if(resource != null) {
             Media media = new Media(resource.toString());
             this.mediaPlayer = new MediaPlayer(media);
@@ -39,10 +36,10 @@ public class Sound extends PathLocation {
         this(soundType, voxelSociety("sounds/" + soundType.name().toLowerCase(), file));
     }
 
-    public Sound(SoundType soundType, TexturePath texturePath) {
-        super(texturePath);
+    public Sound(SoundType soundType, SourcePath sourcePath) {
+        super(sourcePath);
         this.soundType = soundType;
-        URL resource = getClass().getResource(this.texturePath.fullLocation());
+        URL resource = getClass().getResource(this.sourcePath.fullLocation());
         if(resource != null) {
             Media media = new Media(resource.toString());
             this.mediaPlayer = new MediaPlayer(media);
@@ -51,8 +48,8 @@ public class Sound extends PathLocation {
         }
     }
 
-    public static TexturePath voxelSociety(String location, String file) {
-        return new TexturePath(VoxelSociety.GAME_ID, location, file);
+    public static SourcePath voxelSociety(String location, String file) {
+        return new SourcePath(VoxelSociety.GAME_ID, location, file);
     }
 
 
@@ -63,7 +60,7 @@ public class Sound extends PathLocation {
             mediaPlayer.play();
             System.out.println("Playing with Volume: " + mediaPlayer.getVolume() + ", with Speed: " + this.mediaPlayer.getRate());
         } else {
-            System.out.println("MediaPlayer is null: " + this.texturePath.fullLocation());
+            System.out.println("MediaPlayer is null: " + this.sourcePath.fullLocation());
         }
     }
 

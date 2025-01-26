@@ -36,7 +36,6 @@ public class OptionsMenu extends AmbientMenu {
 
         recCalculator.calc(400, 80);
         drawElement(0, uiUtilities, new VoxelTaskButton("Back", UiStyle.DEFAULT, recCalculator.getX(), recCalculator.getY() + 300, 400, 80, () -> {
-            System.out.println("Test");
             if(inGame) {
                 MenuHandler.setFocusedScreen(new PauseMenu());
             } else {

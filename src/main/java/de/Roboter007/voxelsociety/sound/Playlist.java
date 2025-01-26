@@ -112,4 +112,11 @@ public class Playlist {
     public boolean noTrackSelected() {
         return !(currentTrack != null && currentTrack.isPlaying());
     }
+
+    public void updateVolume() {
+        if(this.currentTrack != null) {
+            System.out.println("Current Volume: " + 1.0D % soundType.volume());
+            this.currentTrack.mediaPlayer.setVolume(1.0D % soundType.volume());
+        }
+    }
 }

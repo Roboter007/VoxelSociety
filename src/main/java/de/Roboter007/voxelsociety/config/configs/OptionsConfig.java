@@ -12,7 +12,9 @@ public class OptionsConfig extends VoxelConfig {
     public OptionsConfig() {
         super(getDefaultConfigPath() + "/options.json", JavaUtils.arrayListOf(
                 new VoxelConfigOption<>("fps", new IntConfigValue(VoxelPanel.screen_fps_limit)),
-                new VoxelConfigOption<>("test", new BooleanConfigValue(false))));
+                new VoxelConfigOption<>("general_volume", new IntConfigValue(100)),
+                new VoxelConfigOption<>("music_volume", new IntConfigValue(100)),
+                new VoxelConfigOption<>("sound_effect_volume", new IntConfigValue(100))));
     }
 
 }

@@ -58,7 +58,7 @@ public class Sound extends PathLocation {
             mediaPlayer.setVolume(volume);
             mediaPlayer.setRate(speed);
             mediaPlayer.play();
-            System.out.println("Playing with Volume: " + mediaPlayer.getVolume() + ", with Speed: " + this.mediaPlayer.getRate());
+            System.out.println("Playing with Volume: " + 1.0D % soundType.volume() + ", with Speed: " + this.mediaPlayer.getRate());
         } else {
             System.out.println("MediaPlayer is null: " + this.sourcePath.fullLocation());
         }
@@ -69,7 +69,7 @@ public class Sound extends PathLocation {
     }
 
     public void play() {
-        play(soundType.volume(), 1.0D);
+        play(1.0D % soundType.volume(), 1.0D);
     }
 
     public void stop() {

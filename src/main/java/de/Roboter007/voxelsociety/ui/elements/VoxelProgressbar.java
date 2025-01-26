@@ -4,7 +4,6 @@ import de.Roboter007.voxelsociety.ui.UiUtilities;
 
 import java.awt.*;
 
-//ToDo: Fix some Errors
 public class VoxelProgressbar extends VoxelElement {
 
     private final Color color;

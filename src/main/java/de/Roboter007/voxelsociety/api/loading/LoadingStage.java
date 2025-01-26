@@ -1,9 +1,7 @@
 package de.Roboter007.voxelsociety.api.loading;
 
-import com.sun.javafx.application.PlatformImpl;
 import de.Roboter007.voxelsociety.config.VoxelConfigs;
 import de.Roboter007.voxelsociety.utils.ResourceLoader;
-import javafx.application.Application;
 import javafx.application.Platform;
 
 import java.util.Arrays;

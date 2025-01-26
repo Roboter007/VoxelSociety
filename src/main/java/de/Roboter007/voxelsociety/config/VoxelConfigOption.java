@@ -6,10 +6,10 @@ import de.Roboter007.voxelsociety.config.values.VoxelConfigValue;
 public class VoxelConfigOption<T> {
 
     private String name;
-    private VoxelConfigValue<T> data;
+    private VoxelConfigValue<T> configValue;
 
-    public VoxelConfigOption(String name, VoxelConfigValue<T> data) {
-        this.data = data;
+    public VoxelConfigOption(String name, VoxelConfigValue<T> configValue) {
+        this.configValue = configValue;
         this.name = name;
     }
 
@@ -17,8 +17,8 @@ public class VoxelConfigOption<T> {
         this.name = name;
     }
 
-    public VoxelConfigValue<T> getValue() {
-        return data;
+    public VoxelConfigValue<T> getConfigValue() {
+        return configValue;
     }
 
     public String getName() {
@@ -26,14 +26,14 @@ public class VoxelConfigOption<T> {
     }
 
 
-    public void setValue(VoxelConfigValue<T> value) {
-        this.data = value;
+    public void setConfigValue(VoxelConfigValue<T> value) {
+        this.configValue = value;
     }
 
 
     @Override
     public String toString() {
-        return name + "=" + data;
+        return name + "=" + configValue;
 
     }
 
@@ -43,7 +43,7 @@ public class VoxelConfigOption<T> {
 
          this.name = dataList[0];
          System.out.println("Test 10");
-         this.data = (VoxelConfigValue<T>) VoxelConfigValue.newFromString(dataList[1]);
+         this.configValue = (VoxelConfigValue<T>) VoxelConfigValue.newFromString(dataList[1]);
     }
 
     public static VoxelConfigOption<?> newConfigValue(String data) {

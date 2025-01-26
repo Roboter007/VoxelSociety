@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+//ToDo: Config updater
 public abstract class VoxelConfig {
 
     private final List<VoxelConfigOption<?>> defaultOptions;
@@ -49,21 +50,48 @@ public abstract class VoxelConfig {
     public <T> void setOption(int opId, T newData) {
         VoxelConfigOption<T> configOption = getConfigOption(opId);
 
-        VoxelConfigValue<T> data = configOption.getValue();
+        VoxelConfigValue<T> data = configOption.getConfigValue();
         data.setValue(newData);
 
-        configOption.setValue(data);
+        configOption.setConfigValue(data);
 
         this.options.set(opId, configOption);
 
         saveToFile();
     }
 
+    public <T> void setOption(String optionKey, T newData) {
+        int opId = getOpId(optionKey);
+        if(opId == -1) {
+            System.out.println("Error: the OptionKey - " + optionKey + " does not exist");
+        } else {
+            VoxelConfigOption<T> configOption = getConfigOption(opId);
+
+            VoxelConfigValue<T> data = configOption.getConfigValue();
+            data.setValue(newData);
+
+            configOption.setConfigValue(data);
+
+            this.options.set(opId, configOption);
+
+            saveToFile();
+        }
+    }
+
+    public int getOpId(String optionKey){
+        for(VoxelConfigOption<?> voxelConfigOption : this.options) {
+            if(voxelConfigOption.getName().equals(optionKey)) {
+                return this.options.indexOf(voxelConfigOption);
+            }
+        }
+        return -1;
+    }
+
 
 
     @SuppressWarnings("unchecked")
     public <T> T getValue(int opId) {
-        return (T) this.options.get(opId).getValue().getValue();
+        return (T) this.options.get(opId).getConfigValue().getValue();
     }
 
     @SuppressWarnings("unchecked")
@@ -78,6 +106,22 @@ public abstract class VoxelConfig {
             return fallback;
         } else {
             return data;
+        }
+    }
+
+    public <T> T getOptionWithFallback(String optionKey, T fallback) {
+        int opId = getOpId(optionKey);
+        if(opId == -1) {
+            System.out.println("Error: the OptionKey - " + optionKey + " does not exist");
+            return fallback;
+        } else {
+            T data = getValue(opId);
+
+            if (data == null) {
+                return fallback;
+            } else {
+                return data;
+            }
         }
     }
 

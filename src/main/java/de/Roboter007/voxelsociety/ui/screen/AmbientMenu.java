@@ -6,6 +6,7 @@ import de.Roboter007.voxelsociety.ui.UiUtilities;
 import de.Roboter007.voxelsociety.ui.screen.menus.menu.GameMenu;
 
 //ToDo: Fix PauseScreen force choose the song because it is not cached -> look into InGameMenu.class
+//ToDo: Fix Volume
 public abstract class AmbientMenu extends GameMenu {
     public static final Playlist playlist = new Playlist(SoundType.MUSIC, "waiting");
 
@@ -19,6 +20,7 @@ public abstract class AmbientMenu extends GameMenu {
 
     @Override
     public void draw(UiUtilities uiUtilities) {
+        playlist.updateVolume();
         if(playlist.noTrackSelected()) {
             System.out.println("New Music selected...");
             playlist.playRandomTrack();

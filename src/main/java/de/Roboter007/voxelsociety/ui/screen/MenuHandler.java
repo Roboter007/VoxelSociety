@@ -69,7 +69,7 @@ public class MenuHandler {
         uiUtilities.getGraphics2D().setFont(uiUtilities.getGraphics2D().getFont().deriveFont(20F));
         uiUtilities.getGraphics2D().drawString(ACTIVE_MENU_LIST.toString(), 0, 20);
 
-        uiUtilities.getGraphics2D().setFont(UiStyle.DEFAULT.getFont());
+        /*uiUtilities.getGraphics2D().setFont(UiStyle.DEFAULT.getFont());
         uiUtilities.getGraphics2D().setColor(Color.ORANGE);
         uiUtilities.getGraphics2D().setFont(uiUtilities.getGraphics2D().getFont().deriveFont(10F));
 
@@ -78,7 +78,7 @@ public class MenuHandler {
             for(VoxelElement v : voxelElements) {
                 uiUtilities.getGraphics2D().drawString(s + ", " + v.toString(), 0, 40 + (20 * voxelElements.indexOf(v)));
             }
-        }
+        } */
 
         // Logger for Cached Elements
         //System.out.println(CACHED_VOXEL_ELEMENTS);

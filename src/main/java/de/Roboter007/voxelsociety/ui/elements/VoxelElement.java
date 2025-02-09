@@ -45,6 +45,10 @@ public abstract class VoxelElement {
         }
     }
 
+    public boolean isSimilarTo(VoxelElement voxelElement) {
+        return this.getBoundingBox().equals(voxelElement.getBoundingBox());
+    }
+
     public abstract void updateBoundingBox(int x, int y, int width, int height);
     public abstract void move(int x, int y);
 

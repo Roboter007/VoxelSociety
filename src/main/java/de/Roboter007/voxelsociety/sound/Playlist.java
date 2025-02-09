@@ -115,8 +115,7 @@ public class Playlist {
 
     public void updateVolume() {
         if(this.currentTrack != null) {
-            System.out.println("Current Volume: " + 1.0D % soundType.volume());
-            this.currentTrack.mediaPlayer.setVolume(1.0D % soundType.volume());
+            this.currentTrack.mediaPlayer.setVolume(soundType.volume() / 100);
         }
     }
 }

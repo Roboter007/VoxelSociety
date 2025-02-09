@@ -28,15 +28,14 @@ public class VoxelToggleButton extends VoxelButton {
     @Override
     public void draw(UiUtilities uiUtilities) {
         Graphics2D graphics2D = uiUtilities.getGraphics2D();
-        if(!this.isMouseOverElement()) {
-            graphics2D.setColor(Color.BLACK);
-        } else {
-            graphics2D.setColor(Color.DARK_GRAY);
-        }
 
+        graphics2D.setColor(Color.DARK_GRAY);
         graphics2D.fillRect(x, y, width, height);
-        graphics2D.setColor(Color.WHITE);
-        graphics2D.drawRect(x, y, width, height);
+
+        if(this.isMouseOverElement()) {
+            graphics2D.setColor(Color.WHITE);
+            graphics2D.drawRect(x, y, width, height);
+        }
 
         if(this.text != null) {
             Color color;

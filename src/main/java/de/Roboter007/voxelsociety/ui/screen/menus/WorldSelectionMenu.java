@@ -3,11 +3,12 @@ package de.Roboter007.voxelsociety.ui.screen.menus;
 import de.Roboter007.voxelsociety.api.RecCalculator;
 import de.Roboter007.voxelsociety.ui.UiStyle;
 import de.Roboter007.voxelsociety.ui.UiUtilities;
-import de.Roboter007.voxelsociety.ui.elements.ScrollableVoxelElement;
 import de.Roboter007.voxelsociety.ui.elements.VoxelElement;
 import de.Roboter007.voxelsociety.ui.elements.VoxelSelectableButton;
 import de.Roboter007.voxelsociety.ui.elements.VoxelTaskButton;
 import de.Roboter007.voxelsociety.ui.elements.lists.VoxelElementList;
+import de.Roboter007.voxelsociety.ui.elements.lists.VoxelListEntry;
+import de.Roboter007.voxelsociety.ui.elements.slider.ScrollDirection;
 import de.Roboter007.voxelsociety.ui.screen.AmbientMenu;
 import de.Roboter007.voxelsociety.ui.screen.MenuHandler;
 import de.Roboter007.voxelsociety.utils.VoxelPanel;
@@ -37,22 +38,13 @@ public class WorldSelectionMenu extends AmbientMenu {
 
         RecCalculator recCalculator = new RecCalculator();
 
-        graphics2D.setColor(Color.WHITE);
+        graphics2D.setColor(new Color(189, 189, 189));
         graphics2D.fillRect(0, 100, VoxelPanel.screenWidth, VoxelPanel.screenHeight - 300);
 
         recCalculator.calc(1000, VoxelPanel.screenHeight);
-        drawElement(0, uiUtilities, new VoxelElementList(ScrollableVoxelElement.Direction.Y, new Rectangle(0, 100, VoxelPanel.screenWidth, VoxelPanel.screenHeight), new Rectangle(0, 100, VoxelPanel.screenWidth, 500), 4)
-                .setUpdateTask((thisElement) -> {
-                    System.out.println("Update");
-                    VoxelElementList voxelElementList = (VoxelElementList) thisElement;
-                    voxelElementList.getVoxelBuilder().updateElements(getWorldSelButtons()).updateSize();
-                })
-                .getVoxelBuilder()
-                .addElements(getWorldSelButtons())
-                .build()
-                );
+        drawElement(0, uiUtilities, new VoxelElementList(ScrollDirection.VERTICAL, 0, 200, 20, getWorldSelButtons(), 10));
 
-        graphics2D.setColor(Color.DARK_GRAY);
+        graphics2D.setColor(new Color(42, 42, 42));
         graphics2D.fillRect(0, VoxelPanel.screenHeight - 200, VoxelPanel.screenWidth, VoxelPanel.screenHeight);
 
         recCalculator.calc(200, 80);
@@ -60,8 +52,8 @@ public class WorldSelectionMenu extends AmbientMenu {
 
         drawElement(2, uiUtilities, new VoxelTaskButton("Delete", UiStyle.DEFAULT, recCalculator.getX() + 220, VoxelPanel.screenHeight - 90, 200, 80, () -> {
             if(this.getElement(3) instanceof VoxelElementList voxelElementList) {
-                for(VoxelElement voxelElement : voxelElementList.getVoxelElements()) {
-                    if(voxelElement instanceof VoxelSelectableButton voxelSelectableButton) {
+                for(VoxelListEntry<?> voxelElement : voxelElementList.getVoxelElements()) {
+                    if(voxelElement.getElement() instanceof VoxelSelectableButton voxelSelectableButton) {
                         if (voxelSelectableButton.isSelected()) {
                             String worldName = voxelSelectableButton.getText();
                             World world = Worlds.byName(worldName);
@@ -79,12 +71,13 @@ public class WorldSelectionMenu extends AmbientMenu {
 
         drawElement(3, uiUtilities, new VoxelTaskButton("Create New World", UiStyle.DEFAULT, recCalculator.getX() - 220, VoxelPanel.screenHeight - 90, 200, 80, () -> MenuHandler.setFocusedScreen(new WorldCreationMenu())));
 
-        graphics2D.setColor(Color.DARK_GRAY);
+        graphics2D.setColor(new Color(42, 42, 42));
         graphics2D.fillRect(0, 0, VoxelPanel.screenWidth, 100);
 
         graphics2D.setFont(new Font("Century Schoolbook Bold", Font.BOLD, 25));
         Rectangle2D stringBounds = graphics2D.getFont().getStringBounds(this.getName(), graphics2D.getFontRenderContext());
         recCalculator.calc((int) stringBounds.getWidth(), (int) stringBounds.getHeight());
+
         graphics2D.setColor(Color.WHITE);
         graphics2D.drawString(this.getName(), recCalculator.getX(), 60);
 

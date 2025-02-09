@@ -30,9 +30,9 @@ public class OptionsMenu extends AmbientMenu {
 
         RecCalculator recCalculator = new RecCalculator();
 
-        recCalculator.calc(1000, 750);
-        graphics2D.setColor(Color.GRAY);
-        graphics2D.fillRect(recCalculator.getX(), recCalculator.getY(), 1000, 750);
+        recCalculator.calc(1200, 750);
+        graphics2D.setColor(new Color(42, 42, 42));
+        graphics2D.fillRect(recCalculator.getX(), recCalculator.getY(), 1200, 750);
 
         recCalculator.calc(400, 80);
         drawElement(0, uiUtilities, new VoxelTaskButton("Back", UiStyle.DEFAULT, recCalculator.getX(), recCalculator.getY() + 300, 400, 80, () -> {

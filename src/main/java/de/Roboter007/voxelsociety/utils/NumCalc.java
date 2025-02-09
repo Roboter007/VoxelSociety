@@ -81,6 +81,42 @@ public class NumCalc<N extends Number> {
         throw new UnsupportedOperationException("unknown class: " + cls);
     }
 
+    @SuppressWarnings("unchecked")
+    public N addition(N number, int add) {
+        Class<? extends Number> cls = number.getClass();
+        if (cls == Integer.class) {
+            return (N) Integer.valueOf(number.intValue() + add);
+        }
+        if (cls == Long.class) {
+            return (N) Long.valueOf(number.longValue() + add);
+        }
+        if(cls == Double.class) {
+            return (N) Double.valueOf(number.doubleValue() + add);
+        }
+        if(cls == Float.class) {
+            return (N) Float.valueOf(number.floatValue() + add);
+        }
+        throw new UnsupportedOperationException("unknown class: " + cls);
+    }
+
+    @SuppressWarnings("unchecked")
+    public N addition(N number, double add) {
+        Class<? extends Number> cls = number.getClass();
+        if (cls == Integer.class) {
+            return (N) Integer.valueOf((int) (number.intValue() + add));
+        }
+        if (cls == Long.class) {
+            return (N) Long.valueOf((long) (number.longValue() + add));
+        }
+        if(cls == Double.class) {
+            return (N) Double.valueOf(number.doubleValue() + add);
+        }
+        if(cls == Float.class) {
+            return (N) Float.valueOf((float) (number.floatValue() + add));
+        }
+        throw new UnsupportedOperationException("unknown class: " + cls);
+    }
+
 
     @SuppressWarnings("unchecked")
     public N subtract(N number, N sub) {

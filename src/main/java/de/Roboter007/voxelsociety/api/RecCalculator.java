@@ -19,7 +19,7 @@ public class RecCalculator {
     }
 
     public void calc(int width, int height) {
-        this.x = (VoxelPanel.screenWidth - VoxelPanel.tileSize - width) / 2;
-        this.y = (VoxelPanel.screenHeight - VoxelPanel.tileSize - height) / 2;
+        this.x = (VoxelPanel.screenWidth - width) / 2;
+        this.y = (VoxelPanel.screenHeight - height) / 2;
     }
 }

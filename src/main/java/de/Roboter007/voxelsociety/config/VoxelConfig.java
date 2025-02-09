@@ -157,7 +157,6 @@ public abstract class VoxelConfig {
 
 
         for(VoxelConfigOption<?> value : this.options) {
-            System.out.println(value);
             lines.add(value.toString());
         }
 

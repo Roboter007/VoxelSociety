@@ -64,20 +64,13 @@ public abstract class GameMenu extends Screen implements Menu {
                             && textField.getBoundingBox().getWidth() == cachedVoxelElement.getBoundingBox().getWidth()) {
                         return cachedVoxelElement;
                     } else {
-
                         voxelElementList.set(elementId, voxelElement);
                         return voxelElement;
                     }
                 } else {
-                    if (voxelElement.getBoundingBox().equals(cachedVoxelElement.getBoundingBox())) {
+                    if (voxelElement.isSimilarTo(cachedVoxelElement)) {
                         return cachedVoxelElement;
                     } else {
-
-                        if(cachedVoxelElement instanceof VoxelElementList voxelListElement) {
-                            voxelListElement.setHeight(((VoxelElementList) voxelElement).getHeight());
-                        }
-
-                        //ToDo: besserer Bug Fix - only update on window resizing
                         voxelElementList.set(elementId, voxelElement);
                         return voxelElement;
                     }

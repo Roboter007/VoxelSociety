@@ -3,6 +3,7 @@ package de.Roboter007.voxelsociety.ui;
 import de.Roboter007.voxelsociety.utils.VoxelPanel;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 public class UiUtilities {
 
@@ -60,11 +61,52 @@ public class UiUtilities {
     public void drawString(String text, UiStyle uiStyle, boolean withBackgroundColor, int x, int y) {
         graphics2D.setColor(uiStyle.getColorPalette().textColor());
         graphics2D.setFont(uiStyle.getFont());
+
         if(withBackgroundColor) {
             graphics2D.setBackground(uiStyle.getColorPalette().backgroundColor());
         }
         graphics2D.drawString(text, x, y);
 
+    }
+
+    public void drawStringNoFont(String text, UiStyle uiStyle, boolean withBackgroundColor, int x, int y) {
+        graphics2D.setColor(uiStyle.getColorPalette().textColor());
+
+        if(withBackgroundColor) {
+            graphics2D.setBackground(uiStyle.getColorPalette().backgroundColor());
+        }
+        graphics2D.drawString(text, x, y);
+
+    }
+
+    public void drawString(String text, UiStyle uiStyle, boolean withBackgroundColor, int x, int y, float rotation) {
+        graphics2D.setColor(uiStyle.getColorPalette().textColor());
+
+        AffineTransform affineTransform = new AffineTransform();
+        affineTransform.rotate(Math.toRadians(rotation), 0, 0);
+        Font font = uiStyle.getFont().deriveFont(affineTransform);
+
+        graphics2D.setFont(font);
+
+        if(withBackgroundColor) {
+            graphics2D.setBackground(uiStyle.getColorPalette().backgroundColor());
+        }
+        graphics2D.drawString(text, x, y);
+    }
+
+    public void drawStringNoFont(String text, UiStyle uiStyle, boolean withBackgroundColor, int x, int y, float rotation) {
+        graphics2D.setColor(uiStyle.getColorPalette().textColor());
+
+        AffineTransform affineTransform = new AffineTransform();
+        affineTransform.rotate(Math.toRadians(rotation), 0, 0);
+        Font font = graphics2D.getFont().deriveFont(affineTransform);
+
+        graphics2D.setFont(font);
+
+        if(withBackgroundColor) {
+            graphics2D.setBackground(uiStyle.getColorPalette().backgroundColor());
+        }
+        graphics2D.drawString(text, x, y);
     }
 
     public void drawString(String text, Font font, Color mainColor, Color backgroundColor, int x, int y) {
